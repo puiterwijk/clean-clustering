@@ -2,7 +2,6 @@ implementation module KNN
 
 import StdEnv
 import DataStructuren
-import Utility
 
 
 KNN :: !Int [LabeledData] Data -> Int
@@ -63,5 +62,4 @@ sortLabeledData ds d   = [min] ++ sortLabeledData (removeMember min ds) d
                         | otherwise     = minElement` ds x min
                             where
                                 smaller :: Data LabeledData LabeledData -> Bool
-                                smaller (Data x) (LabeledData (Data a) _) (LabeledData (Data b) _)   = (eucDistance a x) < (eucDistance b x)
-
+                                smaller x (LabeledData a _) (LabeledData b _) = (distance a x) < (distance b x)

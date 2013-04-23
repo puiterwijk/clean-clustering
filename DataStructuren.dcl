@@ -7,3 +7,7 @@ import StdEnv
 
 instance == Data
 instance == LabeledData
+
+class distance a :: !a !a -> Real
+instance distance Data
+instance distance LabeledData
