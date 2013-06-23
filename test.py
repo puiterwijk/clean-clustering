@@ -73,7 +73,7 @@ def getNeighbors(db, p, eps):
         distance = dist(p, q)
         if distance < eps:
             heappush(neighbors, (distance, q))
-    return neighbors
+    return [heappop(neighbors) for i in range(len(neighbors))]
 
 def dist(p, q):
     if len(p) != len(q):
