@@ -5,11 +5,7 @@ import DataStructures
 import FileReader
 import Optics
 
-Unique :: [a] -> [a] | == a
-Unique [] = []
-Unique [x:xs]
-| True = [x:xs] //NYI
-
 Start world
     # (data, world) = ReadFile "Test.txt" 3 world
-= (length data, OPTICS data 1.0 4)
+    # (clusters, noise) = OPTICS data 1.0 4
+= (length data, length clusters, length noise)

@@ -5,9 +5,28 @@ import DataStructures
 
 :: MaybeReal = Undefined | Real Real
 
-OPTICS :: Data Real Int -> [Data]
-OPTICS data eps minPts = [GetNeighbours (hd data)]
+//Returns list of clusters and list of noise points
+OPTICS :: Data Real Int -> ([Data], Data)
+OPTICS data eps minPts = Cluster [] [] data
 where
+
+    /* Input: 
+     *  1 List of clusters
+     *  2 List of noise points
+     *  3 Unprocessed data points
+     */
+    Cluster :: [Data] Data Data -> ([Data], Data)
+    Cluster clusters noise [] = (clusters, noise)
+    Cluster clusters noise [x:xs]
+    | coreDistance x == Undefined = Cluster clusters [x:noise] xs
+        # neighbours = GetNeighbours x
+    | otherwise                   = Update neighbours x
+
+    Update :: Data Vector -> ...
+    Update neighbours x = 
+    Update x unprocessed
+
+    
     GetNeighbours :: Vector -> Data
     GetNeighbours p = [q \\ q <- data | Distance p q <= eps]
 
