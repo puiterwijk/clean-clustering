@@ -83,12 +83,27 @@ def dist(p, q):
         distance += math.pow(p[i]-q[i], 2)
     return math.sqrt(distance)
 
-def core_distance(db, p, eps, minPts, q)
+def core_distance(db, p, eps, minPts)
     N = getNeighbors(db, p, eps)
     if len(N) < minPts:
         return UNDEFINED
     else
         return sort(N, p)[minPts]
 
+#QuickSort
 def sort(db, p)
-    ...
+    if len(db) == 0:
+        return db
+    else:
+        pivot = dist(p, db[0])
+        lt = []
+        eq = []
+        gt = []
+        for q in db
+            if dist(p, q) < pivot:
+                lt.push(q)
+            elif dist(p, q) > pivot:
+                gt.push(q)
+            else:
+                eq.push(q)
+        return sort(lt, p) + eq + sort(gt, p)
