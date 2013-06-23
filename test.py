@@ -82,3 +82,13 @@ def dist(p, q):
     for i in range(0, len(p)):
         distance += math.pow(p[i]-q[i], 2)
     return math.sqrt(distance)
+
+def core_distance(db, p, eps, minPts, q)
+    N = getNeighbors(db, p, eps)
+    if len(N) < minPts:
+        return UNDEFINED
+    else
+        return sort(N, p)[minPts]
+
+def sort(db, p)
+    ...
