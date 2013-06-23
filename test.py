@@ -70,8 +70,9 @@ def update(N, p, Seeds, eps, minPts, unprocessed):
 def getNeighbors(db, p, eps):
     neighbors = []
     for q in db:
-        if dist(p, q) < eps:
-            neighbors.append(q)
+        distance = dist(p, q)
+        if distance < eps:
+            heappush(neighbors, (distance, q))
     return neighbors
 
 def dist(p, q):
