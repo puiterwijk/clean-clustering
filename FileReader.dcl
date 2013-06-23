@@ -1,8 +1,6 @@
 definition module FileReader
 
 import StdEnv
-import DataStructuren
+import DataStructures
 
-
-readDatas :: String Int *World -> ([Data], *World)
-readLabeledDatas :: String Int *World -> ([LabeledData], *World)
+ReadFile :: String Int *World -> (Data, *World)
