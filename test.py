@@ -25,12 +25,14 @@
 
 # Priority queue
 from heapq import *
+import math
 
 
 UNDEFINED = -1
 
 class point:
-    pass
+    reachability_distance = UNDEFINED
+    coordinate = []
 
 def OPTICS(db, eps, minPts):
     unprocessed = db
@@ -64,3 +66,19 @@ def update(N, p, Seeds, eps, minPts, unprocessed):
                     o.reachability_distance = new_reach_dist
                     Seeds.remove(o)
                     heappush(Seeds, (new_reach_dist, o))
+
+def getNeighbors(db, p, eps):
+    neighbors = []
+    for q in db:
+        if dist(p, q) < eps:
+            neighbors.append(q)
+    return neighbors
+
+def dist(p, q):
+    if len(p) != len(q):
+        print 'HUH? Length not equal?'
+        sys.exit(1)
+    distance = 0
+    for i in range(0, len(p)):
+        distance += math.pow(p[i]-q[i], 2)
+    return math.sqrt(distance)
