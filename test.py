@@ -73,7 +73,7 @@ def getNeighbors(db, p, eps):
         distance = dist(p, q)
         if distance < eps:
             heappush(neighbors, (distance, q))
-    return [heappop(neighbors) for i in range(len(neighbors))]
+    return [heappop(neighbors)[1] for i in range(len(neighbors))]
 
 def dist(p, q):
     if len(p) != len(q):
@@ -84,15 +84,15 @@ def dist(p, q):
         distance += math.pow(p[i]-q[i], 2)
     return math.sqrt(distance)
 
-def core_distance(db, p, eps, minPts)
+def core_distance(db, p, eps, minPts):
     N = getNeighbors(db, p, eps)
     if len(N) < minPts:
         return UNDEFINED
-    else
+    else:
         return sort(N, p)[minPts]
 
 #QuickSort
-def sort(db, p)
+def sort(db, p):
     if len(db) == 0:
         return db
     else:
@@ -100,7 +100,7 @@ def sort(db, p)
         lt = []
         eq = []
         gt = []
-        for q in db
+        for q in db:
             if dist(p, q) < pivot:
                 lt.push(q)
             elif dist(p, q) > pivot:
