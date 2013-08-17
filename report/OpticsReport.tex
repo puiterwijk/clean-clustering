@@ -1,0 +1,68 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+
+\title{OPTICS in Clean}
+\date{August 17, 2013}
+\author{Patrick Uiterwijk\\Robin Smit}
+
+\begin{document}
+
+\maketitle
+\clearpage
+
+\tableofcontents
+\clearpage
+
+\section{Abstract}
+Text body
+
+\section{Previous work}
+The interesting thing about this project is that a lot of descriptions can be found on the internet. All of these, however, target imperative implementations. What we will try to do is to provide a functional implementation of the OPTICS algorithm for clustering.
+
+\section{Method}
+As for many programs, it's generally a good idea to make sure one has a clear understanding of what the program to be implemented should accomplish, and the way in which that result should be achieved.
+
+\subsection{Test case}
+We thought of a test case that would provide us with an input allowing us to easily see the results of our algorithm. We took a diagram from the web and extracted it's color values. Our functional OPTICS algorithm should then be able to cluster these values into main colors, generating an image that looks like the original one. Below is an example of such a diagram and it's original color plot:
+
+\includegraphics[scale=0.6]{img/diagram.png}
+\includegraphics[scale=0.6]{img/colorplot.png}
+
+One can see clearly some clusters of the colors while, yellow, orange, as well as some shades of magenta and purple.
+
+\subsection{General application}
+If the algorithm is to run correctly these pixels should be clustered with other pixels of their approximate shade. These clusters could then be averaged for a color. When pixels are then translated back onto a two-dimensional plane (an image), that new image will contain significantly less colors and can be stored more efficiently.
+
+\section{Main results}
+We have implemented the OPTICS algorithm in Clean – a functional language. The program itself can be found in the appendix to this report. Following is a description of how the algorithm works.
+
+\subsection{Data}
+The input to our OPTICS algorithm will exist of a number of Vectors. Such a Vector is simply a list of real numbers. The full input (of type Data) is a collection of Vectors. Duplicates may exist within such a Data object.
+
+\subsection{Distance}
+First, what we need is a function that computes a proximity between two points. We have chosen to work with the Euclidean 1-norm distance (also known as the Manhattan distance), because the triangle inequality holds for this norm an it is less computationally intensive than the 2-norm distance taught in high school.
+
+\begin{equation}
+d(x,y)=\sum_{i=1}^n |x_i-y_i|
+\end{equation}
+
+\section{Analysis}
+Text body
+
+\section{Evaluation}
+\subsection{Project outcome}
+Text body
+\subsection{Expectations}
+Text body
+
+\section{Future directions}
+The algorithm as we have implemented it, executes on a collection of Vectors in a real vector space. This input could be generalized to Vectors of other vector spaces. One would have to generalize the Vector definition, and also define a matching function to calculate a proximity between any such two Vectors.
+
+\section{Appendix}
+The program
+\end{document}
