@@ -1,3 +1,8 @@
 a.out
 test
 Clean System Files/*
+*.aux
+*.dvi
+*.log
+*.pdf
+*.toc
