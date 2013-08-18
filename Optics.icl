@@ -11,19 +11,20 @@ OPTICS data eps minPts = OPTICS` ([{value     = x,
 where
     OPTICS` :: [VectorRecord] Real Int -> [VectorRecord]
     OPTICS` db eps minPts = OPTICS`` db eps minPts [] db
-
-    // First argument is toProcess
-    OPTICS`` :: [VectorRecord] Real Int [VectorRecord] [VectorRecord] -> [VectorRecord]
-    OPTICS`` [] _ _ processed _ = processed
-    OPTICS`` [vr:vrs] eps minPts processed db
-    # neighbors = getNeighbours vr db eps
-    # vr = {vr & processed = True}
-    # processed = [vr : processed]
-    # seeds = zero
-    = OPTICS`` vrs eps minPts processed db 
     where
+        // First argument is toProcess
+        OPTICS`` :: [VectorRecord] Real Int [VectorRecord] [VectorRecord] -> [VectorRecord]
+        OPTICS`` [] _ _ processed _ = processed
+        OPTICS`` [vr:vrs] eps minPts processed db
+        # neighbors = getNeighbours vr db eps
+        # vr = {vr & processed = True}
+        # processed = [vr : processed]
+        # seeds = zero
+        = OPTICS`` vrs eps minPts processed db 
+
+
         getNeighbours :: VectorRecord [VectorRecord] Real -> [VectorRecord]
-        getNeighbours p db eps
+        getNeighbours p db eps 
     /*
         GetNeighbours :: Vector -> Data
         GetNeighbours p = [q \\ q <- data | Distance p q <= eps]
