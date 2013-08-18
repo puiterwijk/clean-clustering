@@ -1,7 +1,8 @@
-/Clean System Files
+a.out
+test
+Clean System Files/*
 *.aux
+*.dvi
 *.log
 *.pdf
-*.synctex.gz
 *.toc
-*.out
