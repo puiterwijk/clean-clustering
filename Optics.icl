@@ -16,21 +16,23 @@ where
     OPTICS`` :: [VectorRecord] Real Int [VectorRecord] [VectorRecord] -> [VectorRecord]
     OPTICS`` [] _ _ processed _ = processed
     OPTICS`` [vr:vrs] eps minPts processed db
-    # neighbors = getNeighbors vr db eps
+    # neighbors = getNeighbours vr db eps
     # vr = {vr & processed = True}
     # processed = [vr : processed]
     # seeds = zero
     = OPTICS`` vrs eps minPts processed db 
-    /*
     where
+        getNeighbours :: VectorRecord [VectorRecord] Real -> [VectorRecord]
+        getNeighbours p db eps
+    /*
         GetNeighbours :: Vector -> Data
         GetNeighbours p = [q \\ q <- data | Distance p q <= eps]
 
-        CoreDistance :: Vector -> MaybeReal
+        CoreDistance :: Vector -> Maybe Real
         CoreDistance p
             # neighbours = GetNeighbours p
-        | length neighbours < minPts = Undefined
-        | otherwise                  = Sort neighbours p !! minPts
+        | length neighbours < minPts = Nothing
+        | otherwise                  = Just (Sort neighbours p !! minPts)
         where
             //QuickSort w.r.t. distance from p
             Sort :: Data -> Data
@@ -42,14 +44,14 @@ where
                 gt = Sort [q \\ q <- data | Distance p q >  Distance p x]
 
 
-        ReachabilityDistance :: Vector Vector -> MaybeReal
+        ReachabilityDistance :: Vector Vector -> Maybe Real
         ReachabilityDistance p o
             # coreDistance = CoreDistance o
-        | coreDistance == Undefined = Undefined
+        | coreDistance == Nothing = Nothing
         | otherwise                 = Max coreDistance (Distance o p)
         where
             Max :: Real Real -> Real
             Max x y
             | x < y     = y
             | otherwise = x
-    */
+        */
