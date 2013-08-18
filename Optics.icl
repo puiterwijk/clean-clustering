@@ -10,7 +10,7 @@ OPTICS data eps minPts = OPTICS` ([{value     = x,
                                     processed = False} \\ x <- data]) eps minPts
 where
     OPTICS` :: [VectorRecord] Real Int -> [VectorRecord]
-    OPTICS` DB eps minPts = OPTICS`` DB eps minPts [] DB
+    OPTICS` db eps minPts = OPTICS`` db eps minPts [] db
 
     // First argument is toProcess
     OPTICS`` :: [VectorRecord] Real Int [VectorRecord] [VectorRecord] -> [VectorRecord]
