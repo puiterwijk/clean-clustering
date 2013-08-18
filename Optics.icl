@@ -20,7 +20,7 @@ where
     # vr = {vr & processed = True}
     # processed = [vr : processed]
     # seeds = zero
-    # 
+    = OPTICS`` vrs eps minPts processed DB 
     /*
     where
         GetNeighbours :: Vector -> Data
