@@ -17,7 +17,7 @@ where
         OPTICS`` :: [VectorRecord] Real Int [VectorRecord] [VectorRecord] -> [VectorRecord]
         OPTICS`` [] _ _ processed _ = processed
         OPTICS`` [vr:vrs] eps minPts processed db
-        # neighbors = getNeighbours vr db eps
+        # neighbors = getNeighbours vr db eps minPts
         # vr = {vr & processed = True}
         # processed = [vr : processed]
         # seeds = zero
@@ -26,8 +26,9 @@ where
 
         getNeighbours :: VectorRecord [VectorRecord] Real -> [VectorRecord]
         getNeighbours p db eps
-        # neighbours = getDistances 
-        = []
+        = 
+        where
+            distances = getDistances p db eps empty
 
         getDistances :: VectorRecord [VectorRecord] Real (PrioQueue Real VectorRecord) -> (PrioQueue Real VectorRecord)
         getDistances _ [] _ q = q
