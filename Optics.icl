@@ -3,11 +3,10 @@ implementation module Optics
 import StdEnv
 import DataStructures
 
-:: MaybeReal = Undefined | Real Real
 :: VectorRecord = {
     value     :: Vector,
-    coreDist  :: MaybeReal,
-    reachDist :: MaybeReal,
+    coreDist  :: Maybe Real,
+    reachDist :: Maybe Real,
     processed :: Boolean
 }
 

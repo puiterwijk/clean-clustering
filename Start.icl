@@ -1,7 +1,7 @@
 module Start
 
 import StdEnv
-import DataStructuren
+import DataStructures
 import Optics
 //import FileReader
 
