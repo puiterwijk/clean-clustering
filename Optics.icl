@@ -3,14 +3,7 @@ implementation module Optics
 import StdEnv
 import DataStructures
 
-:: VectorRecord = {
-    value     :: Vector,
-    coreDist  :: Maybe Real,
-    reachDist :: Maybe Real,
-    processed :: Boolean
-}
-
-OPTICS :: Data Real Int -> [Data]
+OPTICS :: Data Real Int -> [VectorRecord]
 OPTICS data eps minPts = OPTICS` Preprocess data
 where
     
@@ -21,11 +14,11 @@ where
     CreateVectorRecord :: Vector -> VectorRecord
     CreateVectorRecord v = { value = v, coreDist = UNDEFINED, reachDist = UNDEFINED, processed = FALSE }
 
-    OPTICS` :: [VectorRecord] [VectorRecord] -> [Data]
+    OPTICS` :: [VectorRecord] [VectorRecord] -> [VectorRecord]
     OPTICS` processed [] = []
     OPTICS` [vr:vrs]
-    | vr.processed == TRUE  = OPTICS` vrs
-    | vr.processed == FALSE = [{vr & processed = TRUE }:OPTICS` vrs]
+    | vr.processed == TRUE  = OPTICS` processed vrs
+    | vr.processed == FALSE = [{vr & processed = TRUE }:OPTICS` processed vrs]
     /*
     where
         GetNeighbours :: Vector -> Data
