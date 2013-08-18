@@ -14,15 +14,15 @@ push (Node kn vn left right) (k, v)
 | k < kn    = Node kn vn (push left (k, v)) right
 | otherwise = Node kn [v:vn] left right
 
-pop :: (PrioQueue k v) -> ((PrioQueue k v), v)
-pop Leaf = abort "Help... We got into an empty tree??"
-pop (Node k [v] Leaf Leaf) = (Leaf, v)
-pop (Node k [v] left Leaf) = (left, v)
-pop (Node k [v:vs] left Leaf) = (Node k vs left Leaf, v)
+pop :: (PrioQueue k v) -> ((PrioQueue k v), Maybe v)
+pop Leaf = (Leaf, Nothing)
+pop (Node k [v] Leaf Leaf) = (Leaf, Just v)
+pop (Node k [v] left Leaf) = (left, Just v)
+pop (Node k [v:vs] left Leaf) = (Node k vs left Leaf, Just v)
 pop (Node k v left right) = (Node k v left newright, element)
 where
     (newright, element) = pop right
 
 toList :: (PrioQueue k v) -> [v]
 toList Leaf = []
-toList (Node _ vs left right) = (toList left) ++ vs ++ (toList right)
+toList (Node _ vs left right) = (toList right) ++ vs ++ (toList left)
