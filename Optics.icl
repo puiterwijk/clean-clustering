@@ -28,12 +28,19 @@ where
         update neighbours p seeds eps minPts
         # coreDist = CoreDistance neighbours minPts p
         | coreDist == Nothing = seeds
-        | otherwise           = update`` coreDist p neighbours seeds
+        | otherwise           = update` coreDist p neighbours seeds
         where
-            update`` Real VectorRecord [VectorRecord] (PrioQueue Real VectorRecord)
-            update`` coreDist p [o:os] seeds
+            update` Real VectorRecord [VectorRecord] (PrioQueue Real VectorRecord)
+            update` _ _ [] seeds = seeds
+            update` coreDist p [o:os] seeds
             | o.processed = seeds
-            | 
+            | otherwise   = update`` coreDist p o seeds
+            where
+                update`` :: Real VectorRecord VectorRecord (PrioQueue Real VectorRecord) -> (PrioQueue Real VectorRecord)
+                update coreDist p o seeds
+                # reachDist = ReachabilityDistance p o
+                | o.reachDist == Nothing = 
+                | reachDist < o.reachDist = 
 
         CoreDistance :: [VectorRecord] Int VectorRecord -> Maybe Real
         CoreDistance neighbours minPts p
