@@ -26,7 +26,7 @@ where
 
         getNeighbours :: VectorRecord [VectorRecord] Real -> [VectorRecord]
         getNeighbours p db eps
-        = []
+        = toList distances
         where
             distances = getDistances p db eps empty
 
