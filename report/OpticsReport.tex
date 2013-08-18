@@ -112,18 +112,18 @@ OPTICS` db eps minPts
 \end{verbatim}
 
 \clearpage
-\section{Analysis}
-Text body
-
 \section{Evaluation}
 \subsection{Project outcome}
-We have definitely understimated the difficulty of implementing this algorithm in a functional programming language.
+We have definitely understimated the difficulty of implementing this algorithm in a functional programming language. This is mainly due to the imperative nature of the algoritm.
+
+To better understand the algorithm, we have implemented it in Python beforehand. Our Clean version does give the same result as the Python version we created for comparison.
+
 \subsection{Expectations}
 With respect to efficiency, we do not expect our implementation of the OPTICS algorithm to be better than existing 
 
 \section{Future directions}
 The algorithm as we have implemented it, executes on a collection of Vectors in a real vector space. This input could be generalized to Vectors of other vector spaces. One would have to generalize the Vector definition, and also define a matching function to calculate a proximity between any such two Vectors.
 
-In addition to generalizing the OPTICS algorithm, one may continue programming more such algorithms (for clustering or possibly for post-processing and visualizing it's results).
+In addition to generalizing the OPTICS algorithm, it would be useful to implement programs for converting images into vectors, and for visualizing the output of the OPTICS algorithm..
 
 \end{document}
