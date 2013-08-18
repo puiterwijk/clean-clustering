@@ -17,8 +17,8 @@ where
     OPTICS` :: [VectorRecord] [VectorRecord] -> [VectorRecord]
     OPTICS` processed [] = []
     OPTICS` [vr:vrs]
-    | vr.processed == TRUE  = OPTICS` processed vrs
-    | vr.processed == FALSE = [{vr & processed = TRUE }:OPTICS` processed vrs]
+    | vr.processed = OPTICS` processed vrs
+    | otherwise    = [{vr & processed = True }:OPTICS` processed vrs]
     /*
     where
         GetNeighbours :: Vector -> Data
