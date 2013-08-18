@@ -24,13 +24,13 @@ where
         // TODO
         = OPTICS`` vrs eps minPts processed db
 
-        update :: [VectorRecord] VectorRecord (PrioQueue Real VectorRecord) Real Int
+        update :: [VectorRecord] VectorRecord (PrioQueue Real VectorRecord) Real Int -> (PrioQueue Real VectorRecord)
         update neighbours p seeds eps minPts
         # coreDist = CoreDistance neighbours minPts p
         | coreDist == Nothing = seeds
         | otherwise           = update` coreDist p neighbours seeds
         where
-            update` Real VectorRecord [VectorRecord] (PrioQueue Real VectorRecord)
+            update` :: Real VectorRecord [VectorRecord] (PrioQueue Real VectorRecord) -> (PrioQueue Real VectorRecord)
             update` _ _ [] seeds = seeds
             update` coreDist p [o:os] seeds
             | o.processed = seeds
@@ -38,9 +38,13 @@ where
             where
                 update`` :: Real VectorRecord VectorRecord (PrioQueue Real VectorRecord) -> (PrioQueue Real VectorRecord)
                 update coreDist p o seeds
-                # reachDist = ReachabilityDistance p o
-                | o.reachDist == Nothing = 
-                | reachDist < o.reachDist = 
+                # newReachDist = ReachabilityDistance p o
+                | o.reachDist == Nothing
+                # o = {o & reachDist = newReachDist}
+                = push seeds (newReachDist, o)
+                | reachDist < o.reachDist
+                # o.reachDist = newReachDist
+                = moveUp seeds o
 
         CoreDistance :: [VectorRecord] Int VectorRecord -> Maybe Real
         CoreDistance neighbours minPts p
@@ -90,3 +94,4 @@ where
             | x < y     = y
             | otherwise = x
         */
+
