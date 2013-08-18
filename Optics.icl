@@ -19,8 +19,8 @@ where
     # p = {p & processed = True}
     # db = updateAt pid p db
     # coreDist = CoreDistance neighbours p eps minPts
-    | coreDist == Nothing   = [p: OPTICS`` vrs eps minPts db]
-    | otherwise = [p: use_seeds neighbours vr eps minPts vrs db]
+    | coreDist == Nothing   = [p: OPTICS`` db eps minPts]
+    | otherwise = [p: use_seeds neighbours p eps minPts db]
 
     use_seeds :: [VectorRecord] VectorRecord Real Int [VectorRecord] [VectorRecord]
     use_seeds N p eps minPts unprocessed db
@@ -30,4 +30,25 @@ where
 
 
     update :: [VectorRecord] VectorRecord 
+    
 
+
+
+
+
+    CoreDistance :: [VectorRecord] Int VectorRecord -> Maybe Real
+    CoreDistance neighbours minPts p
+    | length neighbours < minPts = Nothing
+    | otherwise                  = Just (Sort neighbours p ! minPts)
+    #coreDist =
+
+
+    getNeighbours :: VectorRecord [VectorRecord] Real -> [VectorRecord]
+    getNeighbours p db eps
+    = toList distances
+    where
+        distances = getDistances p db eps empty
+
+    getDistances :: VectorRecord [VectorRecord] Real (PrioQueue Real VectorRecord) -> (PrioQueue Real VectorRecord)
+    getDistances _ [] _ q = q
+    getDistances p [x:xs] eps q = getDistances p xs eps (push q ((Distance p.value x.value), x))
