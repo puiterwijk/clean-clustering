@@ -2,6 +2,7 @@ implementation module Optics
 
 import StdEnv
 import DataStructures
+import PrioQueue
 
 OPTICS :: Data Real Int -> [VectorRecord]
 OPTICS data eps minPts = OPTICS` ([{value     = x,
@@ -20,11 +21,21 @@ where
         # vr = {vr & processed = True}
         # processed = [vr : processed]
         # seeds = zero
-        = OPTICS`` vrs eps minPts processed db 
+        = OPTICS`` vrs eps minPts processed db
 
 
         getNeighbours :: VectorRecord [VectorRecord] Real -> [VectorRecord]
-        getNeighbours p db eps 
+        getNeighbours p db eps
+        # neighbours = getDistances 
+        = []
+
+        getDistances :: VectorRecord [VectorRecord] Real (PrioQueue Real VectorRecord) -> (PrioQueue Real VectorRecord)
+        getDistances _ [] _ q = q
+        getDistances p [x:xs] eps q = getDistances p xs eps (push q ((distance p x), x))
+
+        distance :: VectorRecord VectorRecord -> Real
+        distance _ _ = 0.0
+
     /*
         GetNeighbours :: Vector -> Data
         GetNeighbours p = [q \\ q <- data | Distance p q <= eps]
