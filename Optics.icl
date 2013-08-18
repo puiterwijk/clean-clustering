@@ -39,8 +39,7 @@ where
     CoreDistance :: [VectorRecord] Int VectorRecord -> Maybe Real
     CoreDistance neighbours minPts p
     | length neighbours < minPts = Nothing
-    | otherwise                  = Just (Sort neighbours p ! minPts)
-    #coreDist =
+    | otherwise                  = Just ((sort neighbours p) !! minPts)
 
 
     getNeighbours :: VectorRecord [VectorRecord] Real -> [VectorRecord]
