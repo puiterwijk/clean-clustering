@@ -34,7 +34,7 @@ where
         getDistances p [x:xs] eps q = getDistances p xs eps (push q ((distance p x), x))
 
         distance :: VectorRecord VectorRecord -> Real
-        distance _ _ = 0.0
+        distance p q = Distance p.value q.value
 
     /*
         GetNeighbours :: Vector -> Data
