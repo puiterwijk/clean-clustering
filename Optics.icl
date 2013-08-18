@@ -24,6 +24,23 @@ where
         // TODO
         = OPTICS`` vrs eps minPts processed db
 
+        update :: [VectorRecord] VectorRecord (PrioQueue Real VectorRecord) Real Int
+        update neighbours p seeds eps minPts
+        # coreDist = CoreDistance neighbours minPts p
+        | coreDist == Nothing = seeds
+        | otherwise           = update`` coreDist p neighbours seeds
+        where
+            update`` Real VectorRecord [VectorRecord] (PrioQueue Real VectorRecord)
+            update`` coreDist p [o:os] seeds
+            | o.processed = seeds
+            | 
+
+        CoreDistance :: [VectorRecord] Int VectorRecord -> Maybe Real
+        CoreDistance neighbours minPts p
+        | length neighbours < minPts = Nothing
+        | otherwise                  = Just (Sort neighbours p ! minPts)
+        #coreDist =
+
 
         getNeighbours :: VectorRecord [VectorRecord] Real -> [VectorRecord]
         getNeighbours p db eps
