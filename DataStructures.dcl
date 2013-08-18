@@ -8,7 +8,6 @@ import StdMaybe
 
 :: VectorRecord = {
     value     :: Vector,
-    coreDist  :: Maybe Real,
     reachDist :: Maybe Real,
     processed :: Bool
     }

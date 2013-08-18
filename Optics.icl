@@ -11,87 +11,23 @@ OPTICS data eps minPts = OPTICS` ([{value     = x,
                                     processed = False} \\ x <- data]) eps minPts
 where
     OPTICS` :: [VectorRecord] Real Int -> [VectorRecord]
-    OPTICS` db eps minPts = OPTICS`` db eps minPts [] db
-    where
-        // First argument is toProcess
-        OPTICS`` :: [VectorRecord] Real Int [VectorRecord] [VectorRecord] -> [VectorRecord]
-        OPTICS`` [] _ _ processed _ = processed
-        OPTICS`` [vr:vrs] eps minPts processed db
-        # neighbors = getNeighbours vr db eps minPts
-        # vr = {vr & processed = True}
-        # processed = [vr : processed]
-        # seeds = zero
-        // TODO
-        = OPTICS`` vrs eps minPts processed db
+    OPTICS` db eps minPts
+    # pid = find_unprocessed db
+    | pid == -1  = [] //We have no more items to process, be done!
+    # p = db!!p
+    # neighbors = getNeighbours p db eps minPts
+    # p = {p & processed = True}
+    # db = updateAt pid p db
+    # coreDist = CoreDistance neighbours p eps minPts
+    | coreDist == Nothing   = [p: OPTICS`` vrs eps minPts db]
+    | otherwise = [p: use_seeds neighbours vr eps minPts vrs db]
 
-        update :: [VectorRecord] VectorRecord (PrioQueue Real VectorRecord) Real Int -> (PrioQueue Real VectorRecord)
-        update neighbours p seeds eps minPts
-        # coreDist = CoreDistance neighbours minPts p
-        | coreDist == Nothing = seeds
-        | otherwise           = update` coreDist p neighbours seeds
-        where
-            update` :: Real VectorRecord [VectorRecord] (PrioQueue Real VectorRecord) -> (PrioQueue Real VectorRecord)
-            update` _ _ [] seeds = seeds
-            update` coreDist p [o:os] seeds
-            | o.processed = seeds
-            | otherwise   = update`` coreDist p o seeds
-            where
-                update`` :: Real VectorRecord VectorRecord (PrioQueue Real VectorRecord) -> (PrioQueue Real VectorRecord)
-                update coreDist p o seeds
-                # newReachDist = ReachabilityDistance p o
-                | o.reachDist == Nothing
-                # o = {o & reachDist = newReachDist}
-                = push seeds (newReachDist, o)
-                | reachDist < o.reachDist
-                # o.reachDist = newReachDist
-                = moveUp seeds o
-
-        CoreDistance :: [VectorRecord] Int VectorRecord -> Maybe Real
-        CoreDistance neighbours minPts p
-        | length neighbours < minPts = Nothing
-        | otherwise                  = Just (Sort neighbours p ! minPts)
-        #coreDist =
+    use_seeds :: [VectorRecord] VectorRecord Real Int [VectorRecord] [VectorRecord]
+    use_seeds N p eps minPts unprocessed db
+    # seeds = empty
+    # (seeds, N) = update N p seeds eps minPts
+    # returned = 
 
 
-        getNeighbours :: VectorRecord [VectorRecord] Real -> [VectorRecord]
-        getNeighbours p db eps
-        = toList distances
-        where
-            distances = getDistances p db eps empty
-
-        getDistances :: VectorRecord [VectorRecord] Real (PrioQueue Real VectorRecord) -> (PrioQueue Real VectorRecord)
-        getDistances _ [] _ q = q
-        getDistances p [x:xs] eps q = getDistances p xs eps (push q ((Distance p.value x.value), x))
-
-    /*
-        GetNeighbours :: Vector -> Data
-        GetNeighbours p = [q \\ q <- data | Distance p q <= eps]
-
-        CoreDistance :: Vector -> Maybe Real
-        CoreDistance p
-            # neighbours = GetNeighbours p
-        | length neighbours < minPts = Nothing
-        | otherwise                  = Just (Sort neighbours p !! minPts)
-        where
-            //QuickSort w.r.t. distance from p
-            Sort :: Data -> Data
-            Sort []     = []
-            Sort [x:xs] = lt ++ eq ++ gt
-            where
-                lt = Sort [q \\ q <- data | Distance p q <  Distance p x]
-                eq =      [q \\ q <- data | Distance p q == Distance p x]
-                gt = Sort [q \\ q <- data | Distance p q >  Distance p x]
-
-
-        ReachabilityDistance :: Vector Vector -> Maybe Real
-        ReachabilityDistance p o
-            # coreDistance = CoreDistance o
-        | coreDistance == Nothing = Nothing
-        | otherwise                 = Max coreDistance (Distance o p)
-        where
-            Max :: Real Real -> Real
-            Max x y
-            | x < y     = y
-            | otherwise = x
-        */
+    update :: [VectorRecord] VectorRecord 
 
