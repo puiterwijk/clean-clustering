@@ -86,7 +86,15 @@ The core-distance of a point $p$ is defined as the distance to it's $MinPts$-th 
     | otherwise                  = Just (Sort neighbours p ! minPts)
 \end{verbatim}
 
-\subsubsection{Reachability distance}
+\subsubsection{Getting the neighbourhood}
+A function that returns a collection of VectorRecords in the $\epsilon$-neighbourhood of a point.
+\begin{verbatim}
+    getNeighbours :: VectorRecord [VectorRecord] Real -> [VectorRecord]
+    getNeighbours p db eps
+    = toList distances
+    where
+        distances = getDistances p db eps empty
+\end{verbatim}
 
 \subsection{Main function}
 \begin{verbatim}
