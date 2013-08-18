@@ -20,7 +20,7 @@ OPTICS (Ordering Points To Identify The Clustering Structure) is an algorithm th
 The algorithm takes spatial data as input and returns a linear ordering of that data. In this ordering, data points that are spatially closest become neighbours.\\
 The data points in the result are paired with additional specific information about spatial closeness to such a point's neighbours. This information may be used to determine an actual clustering of the given data.
 
-This article will give an implementation, analysis and a test case for the OPTICS algorithm written in the functional programming language Clean.
+This article will give an implementation, analysis and a sample test case for the OPTICS algorithm written in the functional programming language Clean.
 \end{abstract}
 \clearpage
 
@@ -35,16 +35,18 @@ The interesting thing about this project is that a lot of descriptions can be fo
 As for many programs, it's generally a good idea to make sure one has a clear understanding of what the program to be implemented should accomplish, and the way in which that result should be achieved.
 
 \subsection{Test case}
-We thought of a test case that would provide us with an input allowing us to easily see the results of our algorithm. We took a diagram from the web and extracted it's color values. Our functional OPTICS algorithm should then be able to cluster these values into main colors, generating an image that looks like the original one. Below is an example of such a diagram and it's original color plot:\\
+We thought of a test case that would provide us with an input allowing us to easily see the results of our algorithm. We took a diagram from the web and extracted it's color values. With the help of our functional OPTICS algorithm, one should then be able to cluster these values into main colors, generating an image that looks like the original one. Below is an example of such a diagram and it's original color plot:\\
 
 \includegraphics[scale=0.6]{img/diagram.png}
 \includegraphics[scale=0.6]{img/colorplot.png}
 \\
 \\
-One can see clearly some clusters of the colors white, yellow, orange, as well as some shades of magenta and purple.
+One can see clearly some clusters of the colors white, yellow, orange, as well as some shades of magenta and purple and their distribution.
 
 \subsection{General application}
-If the algorithm is to run correctly these pixels should be clustered with other pixels of their approximate shade. These clusters could then be averaged for a color. When pixels are then translated back onto a two-dimensional plane (an image), that new image will contain significantly less colors and can be stored more efficiently.
+The greater this distribution, the bigger the color palette that needs to be stored. With the OPTICS algorithm, these pixels could be clustered with other pixels of their approximate shade. These clusters could then be averaged for a color. When pixels are then translated back onto a two-dimensional plane (an image), that new image will contain significantly less colors and can be stored more efficiently.
+
+The OPTICS algorithm, however, is merely the pre-processing step of identifiying such density-based clusters. In this article we will not attempt to identify or visualize clusters in the ordering given by the algorithm, only to show how that ordering is computed.
 
 \clearpage
 \section{Main results}
@@ -53,12 +55,53 @@ We have implemented the OPTICS algorithm in Clean – a functional language. The
 \subsection{Data}
 The input to our OPTICS algorithm will exist of a number of Vectors. Such a Vector is simply a list of real numbers. The full input (of type Data) is a collection of Vectors. Duplicates may exist within such a Data object.
 
+Before running the actual algorithm, some pre-processing is done. The given Vectors are converted to VectorRecords which hold not only the Vector itself, but additional information as well. This additional information includes the reachability distance and core distance.
+
+\begin{verbatim}
+Distance :: Vector Vector -> Real
+Distance [] [] = 0.0
+Distance [x:xs] [y:ys] = Abs (x - y) + Distance xs ys
+where
+    Abs :: Real -> Real
+    Abs x
+    | x < 0.0    = ~x
+    | otherwise  = x
+\end{verbatim}
+
 \subsection{Distance}
-First, what we need is a function that computes the distance between two points. We have chosen to work with the Euclidean 1-norm distance (also known as the Manhattan distance), because the triangle inequality holds for this norm and it is less computationally intensive than the 2-norm distance taught in high school.
+First, what we need is a function that computes the distance between two points. We have chosen to work with the Minkowski distance of order 1 (also known as the Manhattan distance), because the triangle inequality holds for this norm and it is less computationally intensive than the 2-norm distance taught in high school.
 
 \begin{equation}
 d(x,y)=\sum_{i=1}^n |x_i-y_i|
 \end{equation}
+
+\subsubsection{Core distance}
+A core distance is defined only for core points. A core point is any point that has at least $Minpts$ in it's $\epsilon$-neighbourhood.\\
+The core-distance of a point $p$ is defined as the distance to it's $MinPts$-th neighbour.
+
+\begin{verbatim}
+    CoreDistance :: [VectorRecord] Int VectorRecord -> Maybe Real
+    CoreDistance neighbours minPts p
+    | length neighbours < minPts = Nothing
+    | otherwise                  = Just (Sort neighbours p ! minPts)
+\end{verbatim}
+
+\subsubsection{Reachability distance}
+
+\subsection{Main function}
+\begin{verbatim}
+OPTICS` :: [VectorRecord] Real Int -> [VectorRecord]
+OPTICS` db eps minPts
+# pid = find_unprocessed db
+| pid == -1  = [] //We have no more items to process, be done!
+# p = db!!p
+# neighbors = getNeighbours p db eps minPts
+# p = {p & processed = True}
+# db = updateAt pid p db
+# coreDist = CoreDistance neighbours p eps minPts
+| coreDist == Nothing   = [p: OPTICS`` db eps minPts]
+| otherwise = [p: use_seeds neighbours p eps minPts db]
+\end{verbatim}
 
 \clearpage
 \section{Analysis}
@@ -66,14 +109,13 @@ Text body
 
 \section{Evaluation}
 \subsection{Project outcome}
-Text body
+We have definitely understimated the difficulty of implementing this algorithm in a functional programming language.
 \subsection{Expectations}
 With respect to efficiency, we do not expect our implementation of the OPTICS algorithm to be better than existing 
 
 \section{Future directions}
 The algorithm as we have implemented it, executes on a collection of Vectors in a real vector space. This input could be generalized to Vectors of other vector spaces. One would have to generalize the Vector definition, and also define a matching function to calculate a proximity between any such two Vectors.
 
-\clearpage
-\section{Appendix}
-The program
+In addition to generalizing the OPTICS algorithm, one may continue programming more such algorithms (for clustering or possibly for post-processing and visualizing it's results).
+
 \end{document}
