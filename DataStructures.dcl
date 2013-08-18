@@ -1,6 +1,7 @@
 definition module DataStructures
 
 import StdEnv
+import StdMaybe
 
 :: Vector :== [Real]
 :: Data   :== [Vector]
@@ -9,7 +10,7 @@ import StdEnv
     value     :: Vector,
     coreDist  :: Maybe Real,
     reachDist :: Maybe Real,
-    processed :: Boolean
-}
+    processed :: Bool
+    }
 
 Distance :: Vector Vector -> Real
