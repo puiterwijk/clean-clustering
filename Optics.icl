@@ -26,16 +26,13 @@ where
 
         getNeighbours :: VectorRecord [VectorRecord] Real -> [VectorRecord]
         getNeighbours p db eps
-        = 
+        = []
         where
             distances = getDistances p db eps empty
 
         getDistances :: VectorRecord [VectorRecord] Real (PrioQueue Real VectorRecord) -> (PrioQueue Real VectorRecord)
         getDistances _ [] _ q = q
-        getDistances p [x:xs] eps q = getDistances p xs eps (push q ((distance p x), x))
-
-        distance :: VectorRecord VectorRecord -> Real
-        distance p q = Distance p.value q.value
+        getDistances p [x:xs] eps q = getDistances p xs eps (push q ((Distance p.value x.value), x))
 
     /*
         GetNeighbours :: Vector -> Data
