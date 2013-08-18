@@ -15,12 +15,13 @@
 \maketitle
 \clearpage
 
-\section*{Abstract}
-OPTICS (Ordering points to identify the clustering structure) is an algorithm that may be used as a pre-processing method in order to find clusters in spatial data.\\
-The algorithm takes spatfial data as input and returns a linear ordering of that data. In this ordering, data points that are spatially closest become neighbours.\\
+\begin{abstract}
+OPTICS (Ordering Points To Identify The Clustering Structure) is an algorithm that may be used as a pre-processing method in order to find clusters in spatial data.\\
+The algorithm takes spatial data as input and returns a linear ordering of that data. In this ordering, data points that are spatially closest become neighbours.\\
 The data points in the result are paired with additional specific information about spatial closeness to such a point's neighbours. This information may be used to determine an actual clustering of the given data.
 
 This article will give an implementation, analysis and a test case for the OPTICS algorithm written in the functional programming language Clean.
+\end{abstract}
 \clearpage
 
 \tableofcontents
@@ -53,7 +54,7 @@ We have implemented the OPTICS algorithm in Clean – a functional language. The
 The input to our OPTICS algorithm will exist of a number of Vectors. Such a Vector is simply a list of real numbers. The full input (of type Data) is a collection of Vectors. Duplicates may exist within such a Data object.
 
 \subsection{Distance}
-First, what we need is a function that computes a proximity between two points. We have chosen to work with the Euclidean 1-norm distance (also known as the Manhattan distance), because the triangle inequality holds for this norm an it is less computationally intensive than the 2-norm distance taught in high school.
+First, what we need is a function that computes the distance between two points. We have chosen to work with the Euclidean 1-norm distance (also known as the Manhattan distance), because the triangle inequality holds for this norm and it is less computationally intensive than the 2-norm distance taught in high school.
 
 \begin{equation}
 d(x,y)=\sum_{i=1}^n |x_i-y_i|
