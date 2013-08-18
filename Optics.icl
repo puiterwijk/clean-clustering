@@ -15,12 +15,12 @@ where
     // First argument is toProcess
     OPTICS`` :: [VectorRecord] Real Int [VectorRecord] [VectorRecord] -> [VectorRecord]
     OPTICS`` [] _ _ processed _ = processed
-    OPTICS`` [vr:vrs] eps minPts processed DB
-    # neighbors = getNeighbors vr DB eps
+    OPTICS`` [vr:vrs] eps minPts processed db
+    # neighbors = getNeighbors vr db eps
     # vr = {vr & processed = True}
     # processed = [vr : processed]
     # seeds = zero
-    = OPTICS`` vrs eps minPts processed DB 
+    = OPTICS`` vrs eps minPts processed db 
     /*
     where
         GetNeighbours :: Vector -> Data
