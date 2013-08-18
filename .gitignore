@@ -1,3 +1,7 @@
-a.out
-test
-Clean System Files/*
+/Clean System Files
+*.aux
+*.log
+*.pdf
+*.synctex.gz
+*.toc
+*.out
