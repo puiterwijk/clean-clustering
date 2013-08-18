@@ -4,21 +4,14 @@ import StdEnv
 import DataStructures
 
 OPTICS :: Data Real Int -> [VectorRecord]
-OPTICS data eps minPts = OPTICS` Preprocess data
+OPTICS data eps minPts = OPTICS` ([{value     = x,
+                                    coreDist  = Nothing,
+                                    reachDist = Nothing,
+                                    processed = False} \\ x <- data])
 where
-    
-    Preprocess :: Data -> [VectorRecord]
-    Preprocess [] = []
-    Preprocess [v:vs] = [CreateVectorRecord v:Preprocess vs]
-
-    CreateVectorRecord :: Vector -> VectorRecord
-    CreateVectorRecord v = { value = v, coreDist = UNDEFINED, reachDist = UNDEFINED, processed = FALSE }
-
-    OPTICS` :: [VectorRecord] [VectorRecord] -> [VectorRecord]
-    OPTICS` processed [] = []
-    OPTICS` [vr:vrs]
-    | vr.processed = OPTICS` processed vrs
-    | otherwise    = [{vr & processed = True }:OPTICS` processed vrs]
+    OPTICS` :: [VectorRecord] -> [VectorRecord]
+    OPTICS` [] = []
+    OPTICS` [vr:vrs] = []
     /*
     where
         GetNeighbours :: Vector -> Data
